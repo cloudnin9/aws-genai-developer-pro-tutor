@@ -9,3 +9,4 @@
 | 2026-04-18 | FM Selection / Cross-Region Inference / Circuit Breakers | 5/5 (100%) | Perfect — CRIS types, PT requirement for custom models, retry vs circuit breaker, Prompt Routing distinction |
 | 2026-04-18 | RAG vs Fine-tuning vs Pre-training (CPT, Distillation, Reinforcement FT) | 5/5 (100%) | Perfect — correctly applied CPT→FT sequence, distillation, and three-layer combo |
 | 2026-04-19 | FM Customization: LoRA, Model Registry, Deployment | 1/1 (100%) | Correctly identified CPT→SFT→Provisioned Throughput+Model Registry for compliance scenario |
+| 2026-04-19 | Data Validation and Processing Pipelines | 4/5 (80%) | Missed Q5: semantic chunking does not fix table retrieval — parser (BDA) must be fixed first |

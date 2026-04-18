@@ -55,6 +55,7 @@ After each study session:
 4. Log quiz scores in `domain-X-.../quizzes/quiz-log.md`
 5. Update `progress/tracker.md` — increment quiz count, recalculate avg, update status and weak_areas array
 6. Append a row to `progress/study-log.md` and increment the `[N]` count
+7. Use /clear command to start a new session
 
 ### Lecture File Template
 
