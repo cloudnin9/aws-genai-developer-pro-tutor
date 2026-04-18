@@ -52,7 +52,16 @@
 
 ### Data Validation and Processing Pipelines
 
-> Add notes here
+- Ingestion pipeline: **Parse → Chunk → Embed → Write to vector store** (fixed order)
+- Parsing and chunking strategies are **immutable** after data source creation — plan before connecting
+- Parser options: **Default** (text/HTML/markdown), **BDA** (tables/charts/multimodal, template-driven), **FM parser** (custom prompt, max control, higher cost)
+- Chunking options: `NONE`, `FIXED_SIZE`, `HIERARCHICAL` (parent+child), `SEMANTIC` (meaning-based)
+- Default chunking if omitted: ~300 tokens with sentence boundary preservation
+- **POST_CHUNKING Lambda**: only customization point in pipeline — use for custom chunking logic or attaching chunk-level metadata (needed for retrieval filtering)
+- **Structured data** (Redshift, Glue) skips embeddings — Bedrock converts NL to SQL directly
+- `StartIngestionJob` = async batch sync | `KnowledgeBaseDocuments` API = real-time direct ingestion
+- Multimodal parsers (BDA, FM) require an **S3 URI** to store extracted images/charts
+- Poor retrieval on **tables/charts** → fix the **parser**; poor retrieval on **prose** → fix the **chunking strategy**
 
 ### Vector Store Solutions
 
