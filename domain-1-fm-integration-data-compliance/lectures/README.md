@@ -6,8 +6,8 @@
 
 | # | Topic | Task Ref | Status |
 |---|-------|----------|--------|
-| 01 | Solution Architecture Design (Well-Architected GenAI Lens) | 1.1 | [ ] |
-| 02 | FM Selection, Cross-Region Inference, Circuit Breakers | 1.2 | [ ] |
+| 01 | Solution Architecture Design (Well-Architected GenAI Lens) | 1.1 | [x] |
+| 02 | FM Selection, Cross-Region Inference, Circuit Breakers | 1.2 | [x] |
 | 03 | FM Customization: LoRA, SageMaker Model Registry, Deployment | 1.2 | [ ] |
 | 04 | Data Validation and Processing Pipelines | 1.3 | [ ] |
 | 05 | Vector Store Design: OpenSearch, Aurora pgvector, DynamoDB | 1.4 | [ ] |
