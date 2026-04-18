@@ -65,7 +65,18 @@
 
 ### Vector Store Solutions
 
-> Add notes here
+- Vector store holds embeddings; ANN search finds semantically similar vectors at query time
+- **Binary vectors → OpenSearch only** (Serverless + Managed Clusters); all others use float32
+- **GraphRAG → Neptune Analytics**: combine graph traversals + vector similarity for connected entity knowledge
+- **ACID + SQL + vector → Aurora PostgreSQL + pgvector**: financial/transactional workloads
+- **Cost-optimized infrequent access → S3 Vectors**: up to 90% savings, ~100ms latency, zero idle cost, up to 2B vectors/index
+- **Quick-create** (Bedrock auto-provisions index): OpenSearch Serverless, Aurora PostgreSQL, S3 Vectors only
+- Three required field mappings on every index: `vectorField`, `textField`, `metadataField`
+- Aurora gotcha: metadata filtering requires extra fields defined **at index-creation time** (other stores do not)
+- Dimension mismatch between embedding model and vector store config → **ingestion failure**
+- Third-party stores (Pinecone, Redis, MongoDB) require credentials in **AWS Secrets Manager**
+- OpenSearch Serverless charges OCU even when idle; S3 Vectors has **zero idle cost**
+- Embedding model dimension reference: Titan G1 = 1,536 | Titan V2 = 1,024/512/256 | Cohere = 1,024
 
 ### Retrieval Mechanisms (RAG)
 

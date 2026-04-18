@@ -47,15 +47,17 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 
 ## Session Workflow
 
+**CRITICAL: After each study session, you MUST complete ALL steps below without exception. Use `TaskCreate` to create a task for each step at the start of wrap-up, and mark each `completed` only after the file has actually been written. Do NOT declare the session done until all tasks are marked complete.**
+
 After each study session:
 
 1. Create a lecture file: `domain-X-.../lectures/lecture-NN-topic.md` using the template below
 2. Mark the lecture complete in that domain's `lectures/README.md`
-3. Update `domain-X-.../notes/domain-N-notes.md` with key takeaways
+3. Update `domain-X-.../notes/domain-N-notes.md` with key takeaways ← **commonly skipped — do not skip**
 4. Log quiz scores in `domain-X-.../quizzes/quiz-log.md`
 5. Update `progress/tracker.md` — increment quiz count, recalculate avg, update status and weak_areas array
 6. Append a row to `progress/study-log.md` and increment the `[N]` count
-7. Use /clear command to start a new session
+7. Use `/clear` command to clean the session context
 
 ### Lecture File Template
 
