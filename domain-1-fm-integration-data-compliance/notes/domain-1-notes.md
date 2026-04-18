@@ -40,6 +40,16 @@
 - **Circuit breaker** (Step Functions Retry/Catch): stops calling a failed FM endpoint; transitions CLOSED → OPEN → HALF-OPEN. Use when failures are prolonged/repeated.
 - Retry with backoff = transient/occasional errors. Circuit breaker = sustained/repeated failures.
 
+### FM Customization
+
+- Bedrock customization methods: **Supervised FT** (labeled pairs), **Reinforcement FT** (prompts + Lambda rewards), **Distillation** (teacher→student, no labels needed), **Continued Pre-Training** (unlabeled corpus)
+- Two-step pattern: Continued Pre-Training (unlabeled domain corpus) → Supervised Fine-Tuning (labeled task data)
+- **LoRA is NOT in Bedrock** — Bedrock does full-rank fine-tuning; LoRA requires SageMaker HyperPod/Training Jobs
+- LoRA-supported models via SageMaker: Nova (Micro, Lite, Pro, Nova 2), Llama 3 70B, GPT OSS 120B, JumpStart models
+- Custom Bedrock fine-tuned models **require Provisioned Throughput** — on-demand not available
+- **SageMaker Model Registry**: Model Groups → Model Versions → Approval Status → EventBridge → CodePipeline → deploy
+- Approval status change fires EventBridge event = CI/CD hook for automated deployment
+
 ### Data Validation and Processing Pipelines
 
 > Add notes here
