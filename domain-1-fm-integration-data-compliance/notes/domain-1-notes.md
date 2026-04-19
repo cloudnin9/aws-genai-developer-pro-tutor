@@ -110,7 +110,36 @@
 
 ### Retrieval Mechanisms (RAG)
 
-> Add notes here
+#### Embeddings (Task 1.5)
+
+- Embedding models convert text to dense vectors; Bedrock KB uses them at **ingestion and query time**
+- **Titan Embeddings G1 - Text**: 1536 dims, float only — legacy model
+- **Titan Text Embeddings V2**: 256/512/1024 dims, float **and binary** — recommended default; flexible cost/accuracy tuning
+- **Cohere Embed English v3**: 1024 dims, float and binary — single language
+- **Cohere Embed Multilingual v3**: 1024 dims, float and binary — 100+ languages in one model
+- **Titan Multimodal Embeddings G1**: 1024 dims, float only
+- **Binary vectors**: ~32x storage savings vs float, small accuracy trade-off — OpenSearch Serverless + Cohere/Titan V2 only
+- Smaller dimensions = cheaper storage; larger = better recall — choose Titan V2 1024 for high-stakes, 256 for cost-sensitive
+
+#### Hybrid Search and Search Strategy
+
+- Configured via `overrideSearchType` in `KnowledgeBaseVectorSearchConfiguration`
+- `SEMANTIC`: ANN vector similarity only — available on **all** vector store types
+- `HYBRID`: vector similarity **+** BM25 keyword search — **OpenSearch Serverless only**, requires a filterable text field in the index
+- Setting HYBRID on a non-OSS store (e.g., Aurora pgvector) → **validation error**
+- Omit `overrideSearchType` → Bedrock AUTO-selects (safe default)
+- Use HYBRID when queries include exact product codes, SKUs, proper nouns, or domain terms that don't embed reliably
+
+#### Reranking
+
+- Optional second-pass re-scoring of retrieved chunks **after** initial vector/hybrid retrieval
+- Vector search = similarity (cosine); reranking = relevance (cross-encoder query-chunk scoring) — not the same
+- Model: **Cohere Rerank** (via Bedrock)
+- API: `Rerank` endpoint on **Agents for Bedrock Runtime**; can also be used standalone (not just inside KB queries)
+- Configure via `rerankingConfiguration` inside `KnowledgeBaseVectorSearchConfiguration`
+- IAM required: `bedrock:Rerank` + `bedrock:InvokeModel`
+- Adds latency — use when precision matters more than speed
+- "Topically related but not precisely relevant" retrieval problem → fix with reranking
 
 ### Prompt Engineering and Governance
 

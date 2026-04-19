@@ -13,7 +13,7 @@
 | 05 | Vector Store Design: OpenSearch, Aurora pgvector, DynamoDB | 1.4 | [x] |
 | 06 | Vector Store Metadata, Indexing, and Maintenance | 1.4 | [x] |
 | 07 | Chunking Strategies: Fixed, Hierarchical, Semantic | 1.5 | [x] |
-| 08 | Embeddings, Hybrid Search, and Reranking | 1.5 | [ ] |
+| 08 | Embeddings, Hybrid Search, and Reranking | 1.5 | [x] |
 | 09 | Query Handling: Expansion, Decomposition, MCP | 1.5 | [ ] |
 | 10 | Prompt Management and Governance (Bedrock Prompt Management) | 1.6 | [ ] |
 | 11 | Advanced Prompting: CoT, Prompt Flows, Chaining | 1.6 | [ ] |
