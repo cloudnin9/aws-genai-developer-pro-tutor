@@ -47,9 +47,7 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 
 ## Session Workflow
 
-**CRITICAL: After each study session, you MUST complete ALL steps below without exception. Use `TaskCreate` to create a task for each step at the start of wrap-up, and mark each `completed` only after the file has actually been written. Do NOT declare the session done until all tasks are marked complete.**
-
-After each study session:
+**CRITICAL: After each study session, you MUST complete ALL steps below without exception. Use `TaskCreate` to create a task for each step listed below (1 to 7) at the start of wrap-up, and mark each `completed` only after the file has actually been written. Do NOT declare the session done until all tasks are marked complete.**
 
 1. Create a lecture file: `domain-X-.../lectures/lecture-NN-topic.md` using the template below
 2. Mark the lecture complete in that domain's `lectures/README.md`

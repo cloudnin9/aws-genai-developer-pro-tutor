@@ -10,8 +10,8 @@
 | 02 | FM Selection, Cross-Region Inference, Circuit Breakers | 1.2 | [x] |
 | 03 | FM Customization: LoRA, SageMaker Model Registry, Deployment | 1.2 | [x] |
 | 04 | Data Validation and Processing Pipelines | 1.3 | [x] |
-| 05 | Vector Store Design: OpenSearch, Aurora pgvector, DynamoDB | 1.4 | [ ] |
-| 06 | Vector Store Metadata, Indexing, and Maintenance | 1.4 | [ ] |
+| 05 | Vector Store Design: OpenSearch, Aurora pgvector, DynamoDB | 1.4 | [x] |
+| 06 | Vector Store Metadata, Indexing, and Maintenance | 1.4 | [x] |
 | 07 | Chunking Strategies: Fixed, Hierarchical, Semantic | 1.5 | [ ] |
 | 08 | Embeddings, Hybrid Search, and Reranking | 1.5 | [ ] |
 | 09 | Query Handling: Expansion, Decomposition, MCP | 1.5 | [ ] |

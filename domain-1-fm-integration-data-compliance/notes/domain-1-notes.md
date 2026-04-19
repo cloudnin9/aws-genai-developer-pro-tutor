@@ -78,6 +78,22 @@
 - OpenSearch Serverless charges OCU even when idle; S3 Vectors has **zero idle cost**
 - Embedding model dimension reference: Titan G1 = 1,536 | Titan V2 = 1,024/512/256 | Cohere = 1,024
 
+### Vector Store Metadata, Indexing, and Maintenance
+
+- **Metadata sidecar**: `<filename>.<ext>.metadata.json` placed alongside source file in S3 — Bedrock attaches key-value pairs to every chunk derived from that document
+- Metadata enables **filtering at query time** — narrows vector search without scanning all vectors
+- **Aurora exception**: requires a dedicated table column per metadata attribute (pre-defined before ingestion); all other stores use a single flexible string field
+- OpenSearch index **engine must be `faiss`** (not `nmslib`) for Bedrock metadata filtering to work
+- `nmslib` → `faiss` migration requires creating a **new** vector index and a **new** knowledge base
+- **Sync is incremental**: only added/modified/deleted documents are reprocessed; unchanged docs are skipped
+- **Metadata-only optimization**: when only `.metadata.json` files change (non-CSV, no custom Lambda), Bedrock updates metadata without calling the embedding model → **no token cost**
+- CSV files are **always fully re-ingested** when their metadata changes (no metadata-only shortcut)
+- After sync on non-Aurora stores, new vectors may take **a few minutes** to become queryable
+- **HNSW parameters**: `ef_construction` (build quality), `m` (graph connections), `ef_search` (search breadth) — all trade recall vs latency/memory
+- **Quantization**: Binary (32x compression, OpenSearch only) | Scalar (4x, good recall/cost balance)
+- **Auto-optimize** (OpenSearch Serverless): upload dataset to S3 as Parquet/JSONL, set recall/latency thresholds → automated HNSW tuning in 30–60 min on managed infra (no impact on collection)
+- **ISM (Index State Management)**: automates hot → warm → cold → delete lifecycle for OpenSearch managed clusters — critical for cost control as KB grows
+
 ### Retrieval Mechanisms (RAG)
 
 > Add notes here

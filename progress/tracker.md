@@ -1,7 +1,7 @@
 # Progress Tracker
 
 domains[5]{id,topic,weight,quizzes,avg_score,status}:
-  1,FM Integration / Data / Compliance,31%,7,91%,in_progress
+  1,FM Integration / Data / Compliance,31%,8,92%,in_progress
   2,Implementation & Integration,26%,0,-,not_started
   3,AI Safety / Security / Governance,20%,0,-,not_started
   4,Operational Efficiency & Optimization,12%,0,-,not_started

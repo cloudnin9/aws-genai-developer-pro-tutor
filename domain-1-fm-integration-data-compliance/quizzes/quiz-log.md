@@ -11,3 +11,4 @@
 | 2026-04-19 | FM Customization: LoRA, Model Registry, Deployment | 1/1 (100%) | Correctly identified CPT→SFT→Provisioned Throughput+Model Registry for compliance scenario |
 | 2026-04-19 | Data Validation and Processing Pipelines | 4/5 (80%) | Missed Q5: semantic chunking does not fix table retrieval — parser (BDA) must be fixed first |
 | 2026-04-19 | Vector Store Design: OpenSearch, Aurora pgvector, Neptune, S3 Vectors | 10/10 (100%) | Perfect — binary vector constraint, GraphRAG, dimension mismatch, S3 Vectors cost, quick-create stores, Aurora metadata filtering gotcha |
+| 2026-04-19 | Vector Store Metadata, Indexing, and Maintenance | 1/1 (100%) | Correctly identified metadata-only optimization: no re-embedding for non-CSV PDF metadata changes, no token cost |
