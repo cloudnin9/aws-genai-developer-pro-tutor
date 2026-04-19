@@ -85,7 +85,7 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
     <complete><condition>study-log.md log file is updated</condition></complete>
     ```
 
-7. Once steps 1-6 are completed, use `/clear` command to clean the session context
+7. Once steps 1-6 are completed, output: ```<COMPLETE>Domain-X-../Lecture-NN</COMPLETE>```
 
 ### Lecture File Template
 
