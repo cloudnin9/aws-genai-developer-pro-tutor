@@ -47,11 +47,26 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 
 ## Session Workflow
 
-**CRITICAL: After each study session, you MUST complete ALL steps below without exception. Use `TaskCreate` to create a task for each step listed below (1 to 7) at the start of wrap-up, and mark each `completed` only after the file has actually been written. Do NOT declare the session done until all tasks are marked complete.**
+**CRITICAL: After each study session, you MUST complete ALL steps below without exception. Use `TaskCreate` to create a task for each step listed below (1 to 7) at the start of wrap-up, and mark each `completed` only after step's complete condition is met. Do NOT declare the session done until all tasks are marked complete.**
 
-1. Create a lecture file: `domain-X-.../lectures/lecture-NN-topic.md` using the template below
+1. Create a lecture file: `domain-X-.../lectures/lecture-NN-topic.md` using the template below.
+
+   ```xml
+   <complete><condition>Lecture file is written</condition></complete>
+   ```
+
 2. Mark the lecture complete in that domain's `lectures/README.md`
+
+  ```xml
+   <complete><condition>README.md file is updated</condition></complete>
+  ```
+
 3. Update `domain-X-.../notes/domain-N-notes.md` with key takeaways ← **commonly skipped — do not skip**
+
+  ```xml
+   <complete><condition>Notes file is updated</condition></complete>
+  ```
+
 4. Log quiz scores in `domain-X-.../quizzes/quiz-log.md`
 5. Update `progress/tracker.md` — increment quiz count, recalculate avg, update status and weak_areas array
 6. Append a row to `progress/study-log.md` and increment the `[N]` count
@@ -95,7 +110,7 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 
 ## Diagrams
 
-All diagrams in lecture files must use **Mermaid** (`\`\`\`mermaid` fenced code blocks). Do not use ASCII art or plain-text flow diagrams. Prefer `flowchart TD` for pipelines and decision trees, `flowchart LR` for linear sequences.
+All diagrams in lecture files must use **Mermaid** (`\`\`\`mermaid`fenced code blocks). Do not use ASCII art or plain-text flow diagrams. Prefer`flowchart TD`for pipelines and decision trees,`flowchart LR` for linear sequences.
 
 ## Grounding Sources
 
