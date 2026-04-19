@@ -12,7 +12,7 @@
 | 04 | Data Validation and Processing Pipelines | 1.3 | [x] |
 | 05 | Vector Store Design: OpenSearch, Aurora pgvector, DynamoDB | 1.4 | [x] |
 | 06 | Vector Store Metadata, Indexing, and Maintenance | 1.4 | [x] |
-| 07 | Chunking Strategies: Fixed, Hierarchical, Semantic | 1.5 | [ ] |
+| 07 | Chunking Strategies: Fixed, Hierarchical, Semantic | 1.5 | [x] |
 | 08 | Embeddings, Hybrid Search, and Reranking | 1.5 | [ ] |
 | 09 | Query Handling: Expansion, Decomposition, MCP | 1.5 | [ ] |
 | 10 | Prompt Management and Governance (Bedrock Prompt Management) | 1.6 | [ ] |

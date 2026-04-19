@@ -94,6 +94,20 @@
 - **Auto-optimize** (OpenSearch Serverless): upload dataset to S3 as Parquet/JSONL, set recall/latency thresholds → automated HNSW tuning in 30–60 min on managed infra (no impact on collection)
 - **ISM (Index State Management)**: automates hot → warm → cold → delete lifecycle for OpenSearch managed clusters — critical for cost control as KB grows
 
+### Chunking Strategies (Task 1.5)
+
+- **Ingestion pipeline order**: Parse → Chunk → Embed → Write to vector store
+- **Standard/Fixed-size**: configurable max tokens + overlap %; predictable, cheap, good for uniform content
+- **Default chunking** (if none specified): ~300 tokens, respects sentence boundaries
+- **No chunking**: entire document = 1 chunk; loses `x-amz-bedrock-kb-document-page-number` metadata filter and page citations; requires pre-splitting files externally
+- **Hierarchical**: parent chunks (large) contain child chunks (small); child retrieved for precision → replaced by parent at retrieval time for broader context; return count may be less than requested (child→parent deduplication)
+- Hierarchical not recommended with S3 vector bucket; >8000 combined tokens risks metadata size limits
+- **Semantic**: NLP + FM boundary detection; parameters: `max_tokens`, `buffer_size` (surrounding sentences for boundary embedding), `breakpoint_percentile_threshold`; buffer=1 → 3 sentences examined; **extra FM cost at ingestion**
+- Higher `breakpoint_percentile_threshold` → fewer, larger chunks
+- **Multimodal**: Nova embeddings chunk at embedding model level (1–30s, default 5s); BDA converts to text first then applies text chunking
+- Video files: only `video_chunk_duration` applies even if audio embedded; `audio_chunk_duration` = standalone audio files only
+- Decision rule: small self-contained docs → no chunking; uniform text → fixed-size; precision + context trade-off → hierarchical; topic-coherent prose, cost not a concern → semantic
+
 ### Retrieval Mechanisms (RAG)
 
 > Add notes here
