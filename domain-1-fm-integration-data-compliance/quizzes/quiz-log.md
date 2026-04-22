@@ -12,3 +12,4 @@
 | 2026-04-19 | Data Validation and Processing Pipelines | 4/5 (80%) | Missed Q5: semantic chunking does not fix table retrieval — parser (BDA) must be fixed first |
 | 2026-04-19 | Vector Store Design: OpenSearch, Aurora pgvector, Neptune, S3 Vectors | 10/10 (100%) | Perfect — binary vector constraint, GraphRAG, dimension mismatch, S3 Vectors cost, quick-create stores, Aurora metadata filtering gotcha |
 | 2026-04-20 | Embeddings, Hybrid Search, and Reranking | 5/5 (100%) | Perfect — multilingual model, HYBRID validation error on Aurora pgvector, reranking IAM, binary vectors for cost, reranker for precision |
+| 2026-04-20 | Query Handling: Expansion, Decomposition, MCP | 3/3 (100%) | Perfect — decomposition for multi-part queries, hybrid for exact tokens, numberOfRerankedResults capped without decomposition |

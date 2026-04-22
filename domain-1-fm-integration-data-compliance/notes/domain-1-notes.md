@@ -141,6 +141,22 @@
 - Adds latency — use when precision matters more than speed
 - "Topically related but not precisely relevant" retrieval problem → fix with reranking
 
+### Query Handling (Task 1.5)
+
+- **Query expansion** enriches a single query before embedding — HyDE (embed hypothetical answer), multi-query, reformulation
+- **Query decomposition** (`QUERY_DECOMPOSITION`) splits a multi-part query into independent sub-queries; only native `QueryTransformationType` in Bedrock
+- Enable decomposition via `orchestrationConfiguration.queryTransformationConfiguration.type = QUERY_DECOMPOSITION`
+- With decomposition: `numberOfRerankedResults` can be up to **5×** `numberOfResults`; without: capped at `numberOfResults` silently
+- **Metadata filtering** = hard exclusion **before** retrieval — filters on structured attributes, not chunk text; applies at candidate selection stage
+- **BM25 keyword search** (Hybrid) = soft relevance score **during** retrieval — scores exact token matches in chunk text; **OpenSearch Serverless only** (AWS API explicitly states all other vector stores only support SEMANTIC)
+- Key distinction: metadata filter narrows the pool → BM25 scores what remains
+- Use metadata filter when: you know a structured attribute at query time (region, date, category)
+- Use Hybrid/BM25 when: query contains exact tokens that don't embed well (product codes, SKUs, IDs, acronyms)
+- **MCP servers** = query routing endpoints for agents; fan out sub-tasks to heterogeneous sources; not a vector search mechanism
+- Core APIs: `Retrieve` (chunks + scores), `RetrieveAndGenerate` (full RAG pipeline), `RetrieveAndGenerateStream` (streaming), `GenerateQuery` (NL→SQL for structured stores)
+- Default `numberOfResults` = 5; `startsWith`/`stringContains` metadata filters not supported on S3 Vectors
+- Guardrails apply to input/output only — NOT to retrieved chunks
+
 ### Prompt Engineering and Governance
 
 > Add notes here
