@@ -15,6 +15,6 @@
 | 07 | Chunking Strategies: Fixed, Hierarchical, Semantic | 1.5 | [x] |
 | 08 | Embeddings, Hybrid Search, and Reranking | 1.5 | [x] |
 | 09 | Query Handling: Expansion, Decomposition, MCP | 1.5 | [x] |
-| 10 | Prompt Management and Governance (Bedrock Prompt Management) | 1.6 | [ ] |
+| 10 | Prompt Management and Governance (Bedrock Prompt Management) | 1.6 | [x] |
 | 11 | Advanced Prompting: CoT, Prompt Flows, Chaining | 1.6 | [ ] |
 | 12 | Prompt QA, Regression Testing, and Feedback Loops | 1.6 | [ ] |

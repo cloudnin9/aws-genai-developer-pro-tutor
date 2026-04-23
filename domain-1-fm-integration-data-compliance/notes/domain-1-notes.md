@@ -159,4 +159,26 @@
 
 ### Prompt Engineering and Governance
 
-> Add notes here
+- **Bedrock Prompt Management**: centralized store for prompts as ARN-addressable resources; enables governance, versioning, and team-wide reuse
+- **Variables**: `{{curly_brace}}` syntax; values supplied at runtime — must be provided or call fails
+- **Variants**: up to 3 side-by-side configurations (different model/params/text) for A/B comparison before committing
+- **DRAFT → VERSION lifecycle**: draft is mutable; versions are **immutable** — update draft and create a new version; production apps pin to version
+- **Template types**: `TEXT` (basic) | `CHAT` (Converse API: system prompt, history, tool use, prompt caching)
+- **KMS encryption** = customer-managed key for compliance/data residency
+- **CloudTrail** captures prompt lifecycle events = audit trail for governance scenarios
+- **Bedrock Flows**: consumes versioned prompts as prompt nodes — ARN reference in the flow definition
+- `centralize + version + audit trail` scenario → Bedrock Prompt Management + CloudTrail
+
+#### Prompt Caching
+
+- Caches computed KV state of the **token prefix** — subsequent calls reuse prefix, only compute the dynamic suffix
+- Place a **cache point** at the end of static content (system + document); dynamic user question never cached
+- **Minimum 1,024 tokens** per checkpoint (Claude models) — small prefixes not worth caching
+- **TTL 5 min** (default, all models) — resets on every cache hit; sufficient for high-frequency sessions
+- **TTL 1 hour** (Claude 4.5 variants only) — for workflows where same content is accessed <every 5 min but within an hour; 1-hour entries must appear **before** 5-min entries
+- **Cost model**: cache write > standard input; cache read < standard input — only cost-effective with repeated reuse
+- Cacheable fields: `system`, `messages`, `tools` — user's latest message is NOT cached
+- **Prompt caching ≠ semantic caching**: prompt caching = exact token prefix inside model; semantic caching = similar query matching outside model via embeddings
+- Use prompt caching when: same large context is reused across multiple questions in same session
+- Use semantic caching when: different users ask similar questions (avoid full model invocation)
+- Decision rule: same large prefix + frequent questions in session → prompt caching (5-min TTL); different users, similar intent → semantic caching; infrequent reuse within an hour → prompt caching (1-hour TTL)
