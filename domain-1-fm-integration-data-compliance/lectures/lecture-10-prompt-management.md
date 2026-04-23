@@ -83,10 +83,10 @@ Call 1: 5,520 tokens computed + cached. Calls 2–N: only 20 tokens computed.
 
 ### TTL
 
-| TTL | When to Use | Models |
-|-----|-------------|--------|
-| **5 min** (default) | High-frequency chatbots, live sessions | All supported models |
-| **1 hour** | Long agentic workflows, infrequent access within an hour | Claude Haiku/Sonnet/Opus 4.5 |
+| TTL                 | When to Use                                              | Models                       |
+| ------------------- | -------------------------------------------------------- | ---------------------------- |
+| **5 min** (default) | High-frequency chatbots, live sessions                   | All supported models         |
+| **1 hour**          | Long agentic workflows, infrequent access within an hour | Claude Haiku/Sonnet/Opus 4.5 |
 
 - TTL **resets on every cache hit**
 - **Constraint:** 1-hour entries must appear **before** any 5-minute entries in the prompt
