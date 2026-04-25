@@ -1,6 +1,6 @@
 # Study Log
 
-log[10]{date,domain,topic,time,quiz,followup}:
+log[12]{date,domain,topic,time,quiz,followup}:
   [1] 2026-04-18,1,Solution Architecture / Well-Architected GenAI Lens,~30m,1/1 100%,Lecture 01 complete
   [2] 2026-04-18,1,FM Selection / Cross-Region Inference / Circuit Breakers,~20m,-,Lecture 02 complete
   [3] 2026-04-19,1,FM Customization: LoRA / Model Registry / Deployment,~25m,1/1 100%,Lecture 03 complete; clarified LoRA is SageMaker-only not Bedrock
@@ -11,3 +11,5 @@ log[10]{date,domain,topic,time,quiz,followup}:
   [8] 2026-04-20,1,Embeddings / Hybrid Search / Reranking,~30m,5/5 100%,Lecture 08 complete; strong on HYBRID constraint (OSS only) and reranking IAM; noted HYBRID prerequisite = filterable text field not metadata fields
   [9] 2026-04-20,1,Query Handling: Expansion / Decomposition / MCP,~35m,3/3 100%,Lecture 09 complete; clarified metadata filtering (hard exclusion pre-retrieval) vs BM25 keyword search (soft score during retrieval)
   [10] 2026-04-23,1,Prompt Management and Governance / Prompt Caching deep dive,~40m,1/2 50%,Lecture 10 complete; weak area: prompt caching vs semantic caching — chose semantic for same-session large-prefix scenario
+  [11] 2026-04-25,1,Advanced Prompting: CoT / Prompt Chaining / Bedrock Flows,~15m,1/1 100%,Lecture 11 complete; corrected terminology from Promptflow to Amazon Bedrock Flows
+  [12] 2026-04-25,1,Bedrock Flows node topology design + CoT depth review,~20m,3/4 75%,Lecture 11 continued; weak area: missed Condition node in Flows topology (Lambda fires unconditionally without it); confirmed CoT 3-variant coverage is exam-sufficient; noted extended thinking (thinkingConfig) as Bedrock-native CoT

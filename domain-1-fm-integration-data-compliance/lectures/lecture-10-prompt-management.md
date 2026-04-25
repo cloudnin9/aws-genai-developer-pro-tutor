@@ -19,14 +19,14 @@ Amazon Bedrock Prompt Management is a centralized service for creating, storing,
 
 ## AWS Services Involved
 
-| Service | Role |
-|---------|------|
-| Amazon Bedrock Prompt Management | Create, store, version, govern prompts |
-| Amazon Bedrock Prompt Builder | Console UI to edit, test, and compare variants |
-| Amazon Bedrock Flows | Consumes versioned prompts via prompt nodes |
-| AWS KMS | Optional customer-managed encryption of prompt resources |
-| AWS IAM | Access control — who can read/create/version prompts |
-| AWS CloudTrail | Audit log of prompt lifecycle events (create, update, version) |
+| Service                          | Role                                                           |
+| -------------------------------- | -------------------------------------------------------------- |
+| Amazon Bedrock Prompt Management | Create, store, version, govern prompts                         |
+| Amazon Bedrock Prompt Builder    | Console UI to edit, test, and compare variants                 |
+| Amazon Bedrock Flows             | Consumes versioned prompts via prompt nodes                    |
+| AWS KMS                          | Optional customer-managed encryption of prompt resources       |
+| AWS IAM                          | Access control — who can read/create/version prompts           |
+| AWS CloudTrail                   | Audit log of prompt lifecycle events (create, update, version) |
 
 ## Workflow
 
@@ -76,7 +76,10 @@ Call 1: 5,520 tokens computed + cached. Calls 2–N: only 20 tokens computed.
     { "cachePoint": { "type": "default" } }
   ],
   "messages": [
-    { "role": "user", "content": [{ "text": "What are the termination clauses?" }] }
+    {
+      "role": "user",
+      "content": [{ "text": "What are the termination clauses?" }]
+    }
   ]
 }
 ```
@@ -93,11 +96,11 @@ Call 1: 5,520 tokens computed + cached. Calls 2–N: only 20 tokens computed.
 
 ### Cost Model
 
-| Token type | Cost |
-|------------|------|
-| Cache write | **Higher** than normal input |
-| Cache read | **Lower** than normal input |
-| Uncached input | Standard rate |
+| Token type     | Cost                         |
+| -------------- | ---------------------------- |
+| Cache write    | **Higher** than normal input |
+| Cache read     | **Lower** than normal input  |
+| Uncached input | Standard rate                |
 
 Break-even: savings on cache reads outweigh the write premium when the same prefix is reused many times.
 
@@ -108,32 +111,32 @@ Break-even: savings on cache reads outweigh the write premium when the same pref
 
 ### What Can Be Cached
 
-| Field | Cacheable? |
-|-------|-----------|
-| `system` prompt | Yes |
-| `messages` (conversation history) | Yes |
-| `tools` definitions | Yes |
-| User's latest message | No (dynamic per request) |
+| Field                             | Cacheable?               |
+| --------------------------------- | ------------------------ |
+| `system` prompt                   | Yes                      |
+| `messages` (conversation history) | Yes                      |
+| `tools` definitions               | Yes                      |
+| User's latest message             | No (dynamic per request) |
 
 ### Prompt Caching vs Semantic Caching
 
-| | Prompt Caching | Semantic Caching |
-|--|----------------|------------------|
-| **What matches** | Exact token prefix | Similar meaning / embedding distance |
-| **Where it runs** | Inside the model (KV cache) | Outside the model (vector store lookup) |
-| **Use case** | Same large context, different questions in a session | Different users asking essentially the same question |
-| **Example** | All users loading the same 10k-token knowledge base | "Return policy?" ≈ "How do I return an item?" |
-| **Saves** | Input tokens + latency | Full model invocation |
+|                   | Prompt Caching                                       | Semantic Caching                                     |
+| ----------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| **What matches**  | Exact token prefix                                   | Similar meaning / embedding distance                 |
+| **Where it runs** | Inside the model (KV cache)                          | Outside the model (vector store lookup)              |
+| **Use case**      | Same large context, different questions in a session | Different users asking essentially the same question |
+| **Example**       | All users loading the same 10k-token knowledge base  | "Return policy?" ≈ "How do I return an item?"        |
+| **Saves**         | Input tokens + latency                               | Full model invocation                                |
 
 ## Common Misconceptions
 
-| Misconception | Reality |
-|---------------|---------|
-| "I can edit a version if I catch a mistake" | Versions are **immutable** — update the draft, create a new version |
-| "Variants are separate prompts" | Variants are **configurations of the same prompt** — same resource, different model/params/text |
-| "Prompt caching = semantic caching" | Prompt caching caches an **identical token prefix**; semantic caching matches **similar but different queries** |
-| "Variables are optional at runtime" | If variables are defined in the prompt, they **must** be supplied at runtime or the call fails |
-| "1-hour TTL is always better than 5-min" | 1-hour TTL is for infrequent access; if questions come every 30–60s, 5-min TTL stays warm and is sufficient |
+| Misconception                               | Reality                                                                                                         |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| "I can edit a version if I catch a mistake" | Versions are **immutable** — update the draft, create a new version                                             |
+| "Variants are separate prompts"             | Variants are **configurations of the same prompt** — same resource, different model/params/text                 |
+| "Prompt caching = semantic caching"         | Prompt caching caches an **identical token prefix**; semantic caching matches **similar but different queries** |
+| "Variables are optional at runtime"         | If variables are defined in the prompt, they **must** be supplied at runtime or the call fails                  |
+| "1-hour TTL is always better than 5-min"    | 1-hour TTL is for infrequent access; if questions come every 30–60s, 5-min TTL stays warm and is sufficient     |
 
 ## Exam Tips
 

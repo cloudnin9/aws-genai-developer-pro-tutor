@@ -182,3 +182,40 @@
 - Use prompt caching when: same large context is reused across multiple questions in same session
 - Use semantic caching when: different users ask similar questions (avoid full model invocation)
 - Decision rule: same large prefix + frequent questions in session → prompt caching (5-min TTL); different users, similar intent → semantic caching; infrequent reuse within an hour → prompt caching (1-hour TTL)
+
+### Advanced Prompting, Prompt Chaining, and Flows
+
+- Prompt engineering optimizes textual input to improve output quality; Bedrock docs recommend prompt refinement, RAG, or better model selection to reduce hallucinations
+- **Chain-of-thought instruction patterns** are explicitly called out in Task 1.6.5 — they improve reasoning without changing model weights
+- **Prompt chaining** breaks a complex task into sequential LLM calls; use it when one stage's output should feed the next or when you need auditable intermediate outputs
+- AWS Prescriptive Guidance says prompt chaining fits tasks that exceed a single call's reasoning depth or need validation/filtering between stages
+- **Amazon Bedrock Prompt Flows** links prompt nodes, FMs, knowledge bases, and Lambda into a visual workflow
+- Flows lifecycle: **working draft → immutable version → alias** for application deployment
+- **AWS Step Functions** can also orchestrate Bedrock prompt chaining; prefer it for deterministic control, retries, and broader AWS workflow logic
+- Better prompting improves output quality, but it does **not** replace RAG when the model needs private or current facts
+
+#### CoT Variants
+
+- **Zero-shot CoT**: append "Think step by step" — low cost, good baseline
+- **Few-shot CoT**: include 2–5 worked examples with reasoning; higher token cost, higher accuracy
+- **Self-consistency CoT**: sample N paths, take majority vote — for high-stakes reliability, highest cost
+- **Extended thinking (Bedrock)**: `thinkingConfig` API parameter on Claude — native CoT with visible reasoning trace; different from prompt-level CoT
+- **ReAct**: interleaved Reason + Act (tool call) cycles — foundation of Bedrock Agents
+
+#### Prompt Flows Node Reference
+
+| Node | Key Constraint |
+|------|---------------|
+| Input | Max 1 per flow |
+| Output | Multiple allowed |
+| Condition | First match wins; `==`, `!=`, `>`, `>=`, `<`, `<=`, `and`, `or`, `not` |
+| Iterator | Serial, not parallel; splits array into items |
+| Collector | Aggregates Iterator items back into array |
+| DoWhile | `maxIterations` default = 10 |
+| Prompt | Guardrails apply |
+| KnowledgeBase | Without `modelId` → raw chunks (array); with `modelId` → generated text (RAG); guardrails apply in RAG mode only |
+| InlineCode | Python 3.12 only; max 5/flow; NOT available in async flows |
+
+- **PrepareFlow** required before first invocation after changes — validates connections and schema
+- **Async InvokeFlow** supports up to 24-hour runtimes
+- **Step Functions vs Prompt Flows**: Step Functions for deterministic/auditable orchestration; Prompt Flows for Bedrock-native prompt-centric chaining
