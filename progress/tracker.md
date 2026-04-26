@@ -7,12 +7,14 @@ domains[5]{id,topic,weight,quizzes,avg_score,status}:
   4,Operational Efficiency & Optimization,12%,0,-,not_started
   5,Testing / Validation / Troubleshooting,11%,0,-,not_started
 
+last_session: 2026-04-27,Domain 1 Lecture 11 narrative rewrite completed,no new scored quiz
+
 weak_areas[6]:
   1,RAG vs Fine-tuning decision — over-indexed on fine-tuning (resolved 2026-04-18 with 5/5 on expanded quiz)
   2,Parser vs chunking for table retrieval — chose semantic chunking instead of BDA parser (2026-04-19 Lecture 04 Q5)
   3,No chunking constraints — missed that it disables x-amz-bedrock-kb-document-page-number metadata filter (2026-04-19 Lecture 07 Q4)
   4,Multimodal chunk duration rules — audio_chunk_duration only applies to standalone audio files not video-with-audio (2026-04-19 Lecture 07 Q5)
   5,Prompt caching vs semantic caching — chose semantic caching for same-session large-prefix scenario; correct answer was prompt caching (2026-04-23 Lecture 10 Q2)
-  6,Flows Condition node placement — missed Condition node between Collector and Lambda; without it Lambda fires unconditionally (2026-04-25 Lecture 11 Q2)
+  6,Bedrock Flows Condition node placement — missed Condition node between Collector and Lambda; without it Lambda fires unconditionally (2026-04-25 Lecture 11 Q2)
 
 practice_exams[0]{date,score,notes}:

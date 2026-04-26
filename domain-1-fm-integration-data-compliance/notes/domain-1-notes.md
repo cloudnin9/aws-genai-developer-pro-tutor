@@ -185,24 +185,31 @@
 
 ### Advanced Prompting, Prompt Chaining, and Flows
 
-- Prompt engineering optimizes textual input to improve output quality; Bedrock docs recommend prompt refinement, RAG, or better model selection to reduce hallucinations
-- **Chain-of-thought instruction patterns** are explicitly called out in Task 1.6.5 — they improve reasoning without changing model weights
-- **Prompt chaining** breaks a complex task into sequential LLM calls; use it when one stage's output should feed the next or when you need auditable intermediate outputs
-- AWS Prescriptive Guidance says prompt chaining fits tasks that exceed a single call's reasoning depth or need validation/filtering between stages
-- **Amazon Bedrock Prompt Flows** links prompt nodes, FMs, knowledge bases, and Lambda into a visual workflow
-- Flows lifecycle: **working draft → immutable version → alias** for application deployment
-- **AWS Step Functions** can also orchestrate Bedrock prompt chaining; prefer it for deterministic control, retries, and broader AWS workflow logic
-- Better prompting improves output quality, but it does **not** replace RAG when the model needs private or current facts
+- Mental model: **better prompting improves one model call; chaining and flows improve how a whole task is solved**
+- Bedrock prompt engineering docs explicitly include **chain-of-thought reasoning** as a supported prompt-engineering task
+- Use **chain-of-thought** when the task is still a single reasoning problem but the model needs to think more carefully
+- Use **prompt chaining** when the request is really multiple stages (classify → retrieve → draft → validate)
+- AWS Prescriptive Guidance says prompt chaining is a fit when a task exceeds a single call's reasoning depth or when you need transparency, validation, filtering, or enrichment between steps
+- Better prompting improves quality, but it does **not** replace RAG when the model needs private or current facts
 
-#### CoT Variants
+#### CoT Variants and Reasoning Controls
 
-- **Zero-shot CoT**: append "Think step by step" — low cost, good baseline
-- **Few-shot CoT**: include 2–5 worked examples with reasoning; higher token cost, higher accuracy
-- **Self-consistency CoT**: sample N paths, take majority vote — for high-stakes reliability, highest cost
-- **Extended thinking (Bedrock)**: `thinkingConfig` API parameter on Claude — native CoT with visible reasoning trace; different from prompt-level CoT
-- **ReAct**: interleaved Reason + Act (tool call) cycles — foundation of Bedrock Agents
+- **Zero-shot CoT**: append a reasoning cue such as “think step by step” — cheap baseline quality lift
+- **Few-shot CoT**: include worked examples with reasoning traces — more tokens, usually stronger guidance
+- **Self-consistency CoT**: sample multiple reasoning paths and choose the best/majority answer — highest cost, best for high-stakes reliability
+- **Extended thinking (Bedrock / Claude)**: enable `thinking` with `budget_tokens` — model-level reasoning budget, not just a prompt trick
+- AWS docs note extended thinking is best for **math, coding, and analysis**, but it increases **latency** and **token cost**
+- **ReAct**: alternate reasoning and action/tool steps — conceptual bridge into Bedrock Agents
 
-#### Prompt Flows Node Reference
+#### Bedrock Flows and Orchestration
+
+- Current product term in docs: **Amazon Bedrock Flows** (exam materials may still say **Prompt Flows**)
+- Bedrock Flows links prompt nodes, FMs, knowledge bases, and AWS services into a visual workflow
+- Lifecycle: **working draft → prepare/test → immutable version → alias for deployment**
+- Use **Bedrock Flows** when the question emphasizes Bedrock-native, visual, reusable prompt-centric orchestration
+- Use **AWS Step Functions** when the question emphasizes deterministic state transitions, retries, broader AWS workflow logic, or more general orchestration
+
+#### Bedrock Flows Node Reference
 
 | Node | Key Constraint |
 |------|---------------|
@@ -212,10 +219,10 @@
 | Iterator | Serial, not parallel; splits array into items |
 | Collector | Aggregates Iterator items back into array |
 | DoWhile | `maxIterations` default = 10 |
-| Prompt | Guardrails apply |
-| KnowledgeBase | Without `modelId` → raw chunks (array); with `modelId` → generated text (RAG); guardrails apply in RAG mode only |
+| Prompt | Prompt-centric model call inside flow |
+| KnowledgeBase | Retrieval step; can feed downstream reasoning/orchestration |
 | InlineCode | Python 3.12 only; max 5/flow; NOT available in async flows |
 
-- **PrepareFlow** required before first invocation after changes — validates connections and schema
-- **Async InvokeFlow** supports up to 24-hour runtimes
-- **Step Functions vs Prompt Flows**: Step Functions for deterministic/auditable orchestration; Prompt Flows for Bedrock-native prompt-centric chaining
+- **PrepareFlow** is required before invocation after changes so the working draft is validated
+- Multiple output nodes are allowed; useful for branching designs
+- Iterator does **not** provide automatic parallelism — this is a frequent trap
