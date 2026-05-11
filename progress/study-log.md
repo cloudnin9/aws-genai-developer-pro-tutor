@@ -1,6 +1,6 @@
 # Study Log
 
-log[13]{date,domain,topic,time,quiz,followup}:
+log[18]{date,domain,topic,time,quiz,followup}:
   [1] 2026-04-18,1,Solution Architecture / Well-Architected GenAI Lens,~30m,1/1 100%,Lecture 01 complete
   [2] 2026-04-18,1,FM Selection / Cross-Region Inference / Circuit Breakers,~20m,-,Lecture 02 complete
   [3] 2026-04-19,1,FM Customization: LoRA / Model Registry / Deployment,~25m,1/1 100%,Lecture 03 complete; clarified LoRA is SageMaker-only not Bedrock
@@ -14,3 +14,8 @@ log[13]{date,domain,topic,time,quiz,followup}:
   [11] 2026-04-25,1,Advanced Prompting: CoT / Prompt Chaining / Bedrock Flows,~15m,1/1 100%,Lecture 11 complete; corrected terminology from Promptflow to Amazon Bedrock Flows
   [12] 2026-04-25,1,Bedrock Flows node topology design + CoT depth review,~20m,3/4 75%,Lecture 11 continued; weak area: missed Condition node in Flows topology (Lambda fires unconditionally without it); confirmed CoT 3-variant coverage is exam-sufficient; noted extended thinking (thinkingConfig) as Bedrock-native CoT
   [13] 2026-04-27,1,Advanced Prompting: CoT / Bedrock Flows / Prompt Chaining lecture rewrite,~20m,-,Lecture 11 file rewritten in narrative style with stronger architectural flow and Bedrock Flows terminology alignment; no new quiz
+  [14] 2026-04-27,1,Prompt QA / Regression Testing / Feedback Loops,~35m,-,Lecture 12 complete; connected Prompt Management to Bedrock evaluations, invocation logging, and continuous feedback loops; no new scored quiz
+  [15] 2026-05-02,2,Agentic AI: Strands Agents / Agent Squad / Multi-Agent Systems,~40m,1/1 100%,Lecture 01 Domain 2 complete; strong on managed vs SDK distinction and Bedrock supervisor-collaborator hierarchy; started Domain 2
+  [16] 2026-05-11,2,Agentic AI: Strands Agents / Agent Squad / Multi-Agent Systems (recap + correction),~30m,5/5 100%,Lecture 01 Domain 2 recap; 5/5 quiz; corrected Workflow pattern (DAG with parallel execution) and Graph pattern (LLM path selection at each node cycles allowed); updated lecture notes and CLAUDE.md grounding sources with strandsagents.com/docs
+  [17] 2026-05-11,2,Agent Tool Integration: MCP Servers / Function Calling / Bedrock Agents Action Groups,~45m,-,Lecture 02 Domain 2 complete; coverage gap analysis conducted; gaps filled on Return of Control mechanics, tool_choice parameter, AgentCore Gateway auth options (None/2LO/3LO/SigV4); no scored quiz
+  [18] 2026-05-11,2,Agent Tool Integration: MCP Servers / Function Calling / Bedrock Agents Action Groups (quiz),~15m,5/5 100%,Perfect score; strong on all Lecture 02 concepts; no new weak areas

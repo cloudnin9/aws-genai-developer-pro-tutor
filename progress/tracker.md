@@ -2,12 +2,12 @@
 
 domains[5]{id,topic,weight,quizzes,avg_score,status}:
   1,FM Integration / Data / Compliance,31%,14,88%,in_progress
-  2,Implementation & Integration,26%,0,-,not_started
+  2,Implementation & Integration,26%,3,100%,in_progress
   3,AI Safety / Security / Governance,20%,0,-,not_started
   4,Operational Efficiency & Optimization,12%,0,-,not_started
   5,Testing / Validation / Troubleshooting,11%,0,-,not_started
 
-last_session: 2026-04-27,Domain 1 Lecture 11 narrative rewrite completed,no new scored quiz
+last_session: 2026-05-11,Domain 2 Lecture 02 Agent Tool Integration quiz 5/5 100%; strong on stopReason: tool_use, OpenAPI vs function detail schema, Return of Control, SynchronizeGatewayTargets, 3LO auth pattern
 
 weak_areas[6]:
   1,RAG vs Fine-tuning decision — over-indexed on fine-tuning (resolved 2026-04-18 with 5/5 on expanded quiz)

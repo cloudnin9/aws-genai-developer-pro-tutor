@@ -226,3 +226,16 @@
 - **PrepareFlow** is required before invocation after changes so the working draft is validated
 - Multiple output nodes are allowed; useful for branching designs
 - Iterator does **not** provide automatic parallelism — this is a frequent trap
+
+### Prompt QA, Regression Testing, and Feedback Loops
+
+- **Prompt Management** helps you create, test, compare, and version prompts; it is not by itself the full regression-testing system
+- Drafts are **mutable**; prompt **versions** are immutable snapshots and should be what production apps pin to
+- Prompt testing in Prompt Management supports temporary **test variables** and version comparison with side-by-side diffs and output comparison
+- Domain 1 focuses on prompt QA and governance; Domain 5 extends that into broader evaluation systems, regression workflows, and deployment quality gates
+- **Bedrock evaluations** can assess models and knowledge bases using built-in metrics, judge models, human workers, or custom metrics
+- Custom evaluation datasets live in **S3** as **JSONL** and can include `prompt`, `referenceResponse`, and optional `category`
+- **Custom metrics** are useful when business quality criteria are more specific than built-in metrics; they use detailed judge instructions and can include rating scales
+- AWS GenAI Lens recommends **periodic evaluations**, **stratified sampling**, **custom metrics**, and updated ground-truth datasets to catch drift
+- **Model invocation logging** can publish to **CloudWatch Logs**, **S3**, or both; CloudWatch is strong for fast operational debugging, while S3 is better for larger payloads and analytics
+- Feedback loop mental model: prompt draft → test → version → evaluate → deploy → observe real traffic → harvest failures → update dataset → refine again

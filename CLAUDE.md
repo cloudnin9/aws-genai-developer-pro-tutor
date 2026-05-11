@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-This is a personal learning workspace for the **AWS Certified Generative AI Developer Pro** certification. There is no application code — the workspace is a structured study environment with Claude acting as an interactive tutor.
+This is a personal learning workspace for the **AWS Certified Generative AI Developer Pro** certification (AIP-C01). There is no application code — the workspace is a structured study environment with Claude acting as an interactive tutor.
 
 ## Active Output Style
 
@@ -49,6 +49,7 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 
 **CRITICAL: After each study session, you MUST complete ALL steps below without exception. Use `TaskCreate` to create a task for each step listed below (1 to 7) at the start of wrap-up, and mark each `completed` only after step's complete condition is met. Do NOT declare the session done until all tasks are marked complete.**
 
+
 1. Create a lecture file: `domain-X-.../lectures/lecture-NN-topic.md` using the template below.
 
     ```xml
@@ -87,24 +88,55 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 
 7. Once steps 1-6 are completed, output: ```<COMPLETE>Domain-X-../Lecture-NN</COMPLETE>```
 
+
+**Parallelization:** Steps 3, 4, 5, and 6 are independent file updates — spawn them as parallel `general-purpose` sub-agents rather than running sequentially.
+
 ### Lecture File Template
 
-```markdown
+Lecture files should read like **guided lessons**, not like raw study notes. They should help the learner form a mental model by moving from problem context → architecture → trade-offs → exam cues. Use bullets mainly for recap sections, not as the entire lesson body.
+
+``` markdown
 # Lecture NN — [Topic Name]
+
+## Why This Topic Matters
+
+[Set the scene. Explain the problem this topic solves, why it matters in real GenAI systems, and where it fits in the broader AWS GenAI landscape.]
 
 ## Concept Overview
 
-[Clear explanation of the concept]
+[Teach the concept as a connected explanation. Show how the parts relate and why AWS provides this capability. Avoid making this section just a bullet list.]
 
-## Key Points
+## Architecture Walkthrough
 
-- [Critical fact 1]
-- [Critical fact 2]
+[Walk through the flow step by step. Explain what happens first, what happens next, and how the services interact.] 
+[Use as many diagrams as we deem necessary to faciliate the learning.]
+
+`
+    ```mermaid
+    flowchart TD
+        A[Input / Trigger] --> B[AWS Service or Component]
+        B --> C[Processing / Retrieval / Orchestration]
+        C --> D[Model / Output / Action]
+    ```
+`
+
+## Real-World Example
+
+[Use a realistic scenario such as an internal enterprise assistant, customer support workflow, regulated workload, or cost-sensitive production app to make the concept concrete.]
 
 ## AWS Services Involved
 
 | Service | Role |
 | ------- | ---- |
+
+## Trade-offs and Design Choices
+
+[Explain the main architectural decisions: when to use this approach, when not to, and the trade-offs in cost, latency, accuracy, governance, or operational complexity.]
+
+## Key Points
+
+- [Critical fact 1]
+- [Critical fact 2]
 
 ## Common Misconceptions
 
@@ -118,9 +150,14 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 
 - [Edge cases or tricky distinctions]
 
+## Practice Question
+
+[Add one short scenario-based question that checks whether the learner can apply the concept.]
+
 ## Source
 
 - [URL to AWS documentation used]
+
 ```
 
 ## Diagrams
@@ -132,10 +169,11 @@ All diagrams in lecture files must use **Mermaid** (`\`\`\`mermaid`fenced code b
 All responses must be grounded in authoritative AWS sources. Before answering any question about AWS services, concepts, or exam content, consult the following sources using the `awslabs.aws-documentation-mcp-server` MCP tool where available:
 
 1. **AWS Exam Guide** — the official [exam guide](https://docs.aws.amazon.com/aws-certification/latest/ai-professional-01/ai-professional-01.html) for the AWS Certified Generative AI Developer - Professional (AIP-C01)
-2. **awslabs.aws-documentation-mcp-server** — use this MCP server to fetch current AWS documentation
+2. **AWS Documentation MCP server** - use **awslabs.aws-documentation-mcp-server** server tools (`search_documentation`, `read_documentation`, `read_sections`, `recommend`)to fetch current AWS documentation
 3. **AWS Official Documentation** — [docs.aws.amazon.com](https://docs.aws.amazon.com/)
 4. **AWS Whitepapers** — [aws.amazon.com/whitepapers](https://aws.amazon.com/whitepapers/)
-5. AWS LABS [awslabs](https://github.com/awslabs)
+5. **AWS LABS** [awslabs](https://github.com/awslabs)
+6. **Strands Agents SDK documentation** — [strandsagents.com/docs](https://strandsagents.com/docs/) — authoritative source for Strands Agents patterns (Workflow, Graph, Swarm), agent loop, tools, and deployment. Prefer this over training knowledge for Strands-specific behaviour.
 
 **Do NOT rely on training knowledge. Always retrieve and cite the source used. If a source contradicts training knowledge, prefer the retrieved source.**
 

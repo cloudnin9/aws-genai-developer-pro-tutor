@@ -6,8 +6,8 @@
 
 | # | Topic | Task Ref | Status |
 |---|-------|----------|--------|
-| 01 | Agentic AI: Strands Agents, Agent Squad, Multi-Agent Systems | 2.1 | [ ] |
-| 02 | Agent Tool Integration: MCP Servers, Function Calling | 2.1 | [ ] |
+| 01 | Agentic AI: Strands Agents, Agent Squad, Multi-Agent Systems | 2.1 | [x] |
+| 02 | Agent Tool Integration: MCP Servers, Function Calling | 2.1 | [x] |
 | 03 | Agent Orchestration: ReAct, Human-in-the-Loop, Guardrails | 2.1 | [ ] |
 | 04 | Model Deployment: Lambda, Provisioned Throughput, SageMaker | 2.2 | [ ] |
 | 05 | FM API Integration: Sync/Async, Streaming, Error Handling | 2.4 | [ ] |
