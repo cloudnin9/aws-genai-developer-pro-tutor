@@ -69,9 +69,24 @@
 - Auth options: None (internal VPC only) / OAuth 2LO (M2M) / OAuth 3LO (user-delegated) / IAM SigV4 (AWS-native)
 - Exam pattern: user-delegated access → 3LO; M2M backend → 2LO; AWS service tool → SigV4
 
-### Agent Orchestration (ReAct, Human-in-the-Loop)
+### Agent Orchestration (ReAct, Human-in-the-Loop, Guardrails)
 
-> Add notes here
+- **ReAct loop**: FM alternates Reason (rationale) → Act (action prediction) → Observe (result) until `stopReason: end_turn`
+- `stopReason: tool_use` → invoke action group, KB, or clarify; `stopReason: end_turn` → return final answer
+- **Four stages** (only Orchestration cannot be disabled):
+  - Pre-processing: validate/categorise input — can be disabled
+  - Orchestration: the ReAct loop — **cannot be disabled**
+  - KB response generation: summarise retrieved chunks — can be disabled
+  - Post-processing: format final answer — **off by default**, must be explicitly enabled
+- **User confirmation**: per-action-group setting; pauses loop; returns `returnControl` + `invocationInputs` to calling application; user sends back CONFIRM or DENY via `sessionState.returnControlInvocationResults.confirmationState`; does **not** apply to KB queries
+- **Guardrails**: policy-level content filters; evaluate at every input/output boundary; a violation returns a blocked message and halts that step; charged even when no block occurs
+- **Guardrail cost model**: blocked input = guardrail charge only; blocked response = guardrail + FM inference; no block = guardrail + FM inference
+- **User confirmation vs guardrails**: complementary — confirmation gates specific irreversible actions on human consent; guardrails enforce content policy across all interactions
+- **Prompt injection risk**: tool API responses can contain malicious instructions; user confirmation is a key mitigation
+- **Custom orchestration**: Lambda replaces the ReAct engine; first state always = `START`; events: `INVOKE_MODEL`, `INVOKE_ACTION_GROUP`, `FINISH`
+- **Advanced prompts**: change what FM sees at each stage; can inject few-shot examples, constraints; Lambda parser can transform raw FM output before agent acts
+- Advanced prompts = control *what the FM sees*; custom orchestration = control *when/whether FM is called*
+- Orchestration loop has a **maximum step limit** — agent returns error rather than looping indefinitely
 
 ### Model Deployment (Lambda, Provisioned Throughput, SageMaker)
 

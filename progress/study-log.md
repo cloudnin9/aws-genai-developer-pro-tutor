@@ -1,6 +1,6 @@
 # Study Log
 
-log[18]{date,domain,topic,time,quiz,followup}:
+log[19]{date,domain,topic,time,quiz,followup}:
   [1] 2026-04-18,1,Solution Architecture / Well-Architected GenAI Lens,~30m,1/1 100%,Lecture 01 complete
   [2] 2026-04-18,1,FM Selection / Cross-Region Inference / Circuit Breakers,~20m,-,Lecture 02 complete
   [3] 2026-04-19,1,FM Customization: LoRA / Model Registry / Deployment,~25m,1/1 100%,Lecture 03 complete; clarified LoRA is SageMaker-only not Bedrock
@@ -19,3 +19,4 @@ log[18]{date,domain,topic,time,quiz,followup}:
   [16] 2026-05-11,2,Agentic AI: Strands Agents / Agent Squad / Multi-Agent Systems (recap + correction),~30m,5/5 100%,Lecture 01 Domain 2 recap; 5/5 quiz; corrected Workflow pattern (DAG with parallel execution) and Graph pattern (LLM path selection at each node cycles allowed); updated lecture notes and CLAUDE.md grounding sources with strandsagents.com/docs
   [17] 2026-05-11,2,Agent Tool Integration: MCP Servers / Function Calling / Bedrock Agents Action Groups,~45m,-,Lecture 02 Domain 2 complete; coverage gap analysis conducted; gaps filled on Return of Control mechanics, tool_choice parameter, AgentCore Gateway auth options (None/2LO/3LO/SigV4); no scored quiz
   [18] 2026-05-11,2,Agent Tool Integration: MCP Servers / Function Calling / Bedrock Agents Action Groups (quiz),~15m,5/5 100%,Perfect score; strong on all Lecture 02 concepts; no new weak areas
+  [19] 2026-05-11,2,Agent Orchestration: ReAct / Human-in-the-Loop / Guardrails,~50m,1/1 100%,Lecture 03 Domain 2 complete; strong on user confirmation vs guardrails distinction and ReAct stopReason values; follow-up on advanced prompt templates across four orchestration stages
