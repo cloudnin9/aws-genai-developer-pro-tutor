@@ -6,6 +6,6 @@
 
 | # | Topic | Task Ref | Status |
 |---|-------|----------|--------|
-| 01 | FM Evaluation: Quality Metrics, LLM-as-a-Judge, RAG Eval | 5.1 | [ ] |
-| 02 | Agent Evaluation, Deployment Validation, Reporting | 5.1 | [ ] |
+| 01 | FM Evaluation: Quality Metrics, LLM-as-a-Judge, RAG Eval, SageMaker Clarify Metrics | 5.1 | [ ] |
+| 02 | Agent Evaluation: Bedrock Agent Evaluations, Deployment Validation, Reporting | 5.1 | [ ] |
 | 03 | Troubleshooting: Context Overflow, Retrieval Issues, Prompt Debugging | 5.2 | [ ] |

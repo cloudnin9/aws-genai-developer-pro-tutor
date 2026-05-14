@@ -10,5 +10,6 @@
 | 2026-05-11 | Agent Tool Integration: MCP Servers, Function Calling (Lecture 02) | no quiz | Coverage gap review conducted — gaps filled on Return of Control mechanics, tool_choice parameter, and AgentCore Gateway auth options |
 | 2026-05-11 | Agent Tool Integration: MCP Servers, Function Calling (Lecture 02) | 5/5 (100%) | Perfect score; strong on stopReason: tool_use, OpenAPI vs function detail schema, Return of Control, SynchronizeGatewayTargets, and 3LO auth |
 | 2026-05-11 | Agent Orchestration: ReAct, Human-in-the-Loop, Guardrails (Lecture 03) | 1/1 (100%) | Correctly identified user confirmation on executeTrade action group + Guardrails with denied topic as the right combo for financial services agent |
+| 2026-05-12 | Model Deployment — Lambda, Provisioned Throughput, SageMaker | 1/1 (100%) | Correctly identified B (Provisioned Throughput) for custom fine-tuned Bedrock model scenario; understood that on-demand and cross-region inference profiles don't apply to custom models |
 
 ---

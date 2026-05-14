@@ -18,3 +18,7 @@
 | 2026-04-25 | Bedrock Prompt Flows: node topology design (product review scenario) | 3/4 (75%) | Answer: Input → Iterator → Prompt → Collector → S3 Storage → Lambda; missed Condition node between Collector and S3/Lambda — without it Lambda fires unconditionally instead of only on critical issues |
 | 2026-04-27 | Lecture 11 narrative rewrite / architecture reframing | N/A | No new quiz this session; rewrote saved lecture in a more connected teaching style and aligned terminology to Bedrock Flows |
 | 2026-04-27 | Prompt QA, Regression Testing, and Feedback Loops | N/A | Lecture 12 complete; delivered scenario-based practice question and grounded lecture in Prompt Management versions, Bedrock evaluations, invocation logging, and Well-Architected feedback loops |
+| 2026-05-14 | Multimodal Data Pipelines (Lecture 13) | N/A | Lecture reviewed and patched; practice Q in lecture file; no scored quiz this session |
+| 2026-05-14 | Dynamic Model Selection, AppConfig, Rollback (Lecture 14) | N/A | Lecture reviewed and patched; AppConfig Agent extension behavior and rollback corrected |
+| 2026-05-14 | Prompt Governance, Audit Trails, Clarification Workflows (Lecture 15) | N/A | Lecture reviewed and patched; CloudTrail data event distinction added |
+| 2026-05-14 | KB Automated Sync, API Gateway, Lambda Batch Embeddings (Lecture 16) | N/A | New lecture created; practice Q in lecture file; no scored quiz this session |

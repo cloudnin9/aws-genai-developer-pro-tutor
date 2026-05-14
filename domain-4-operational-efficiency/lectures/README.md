@@ -6,6 +6,6 @@
 
 | # | Topic | Task Ref | Status |
 |---|-------|----------|--------|
-| 01 | Cost Optimization: Token Efficiency, Model Tiering, Caching | 4.1 | [ ] |
-| 02 | Performance: Latency Optimization, Batch Inference, Auto-Scaling | 4.2 | [ ] |
-| 03 | Monitoring: CloudWatch, Model Invocation Logs, Observability | 4.3 | [ ] |
+| 01 | Cost Optimization: Token Efficiency, Model Tiering, Prompt Caching, Semantic Caching, S3 Lifecycle Policies | 4.1 | [ ] |
+| 02 | Performance: Latency Optimization, Batch Inference, Auto-Scaling, SageMaker Inference Recommender | 4.2 | [ ] |
+| 03 | Monitoring: CloudWatch, Model Invocation Logs, CloudTrail, Amazon QuickSight, Managed Grafana, Observability Dashboards | 4.3 | [ ] |

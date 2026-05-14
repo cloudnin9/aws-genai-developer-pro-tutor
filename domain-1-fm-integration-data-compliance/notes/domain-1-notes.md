@@ -239,3 +239,33 @@
 - AWS GenAI Lens recommends **periodic evaluations**, **stratified sampling**, **custom metrics**, and updated ground-truth datasets to catch drift
 - **Model invocation logging** can publish to **CloudWatch Logs**, **S3**, or both; CloudWatch is strong for fast operational debugging, while S3 is better for larger payloads and analytics
 - Feedback loop mental model: prompt draft → test → version → evaluate → deploy → observe real traffic → harvest failures → update dataset → refine again
+
+### Multimodal Data Pipelines (Lecture 13)
+
+- Transcribe/Rekognition/Textract/BDA each handle different modalities: audio→text, image→labels/text, document→structured text, multimodal→structured extraction
+- **BDA parser** is required for table/chart extraction (not chunking strategy); poor table retrieval → fix the parser first
+- `audio_chunk_duration` applies only to **standalone audio files**; for video files (even with embedded audio), only `video_chunk_duration` applies
+- Rekognition has two modes: **stored** (S3, async, full analysis) and **streaming** (Kinesis Video Streams, real-time, limited label detection)
+- Textract `AnalyzeDocument` with FORMS/TABLES extracts key-value pairs and table cells; `AnalyzeExpense` specializes in financial documents (invoices, receipts)
+
+### Dynamic Model Selection, AppConfig, Rollback (Lecture 14)
+
+- AppConfig Agent Lambda extension polls `localhost:2772` inside the Lambda execution environment — no SDK call required in application code
+- Poll interval controls cache freshness; shorter interval = more current config but more AppConfig API calls
+- Rollback during **bake window** is alarm-driven (CloudWatch alarm triggers automatic rollback)
+- Rollback **outside** bake window requires manual re-deploy of a prior configuration version — AppConfig has no automatic rollback outside the bake window
+- Model ID is stored in AppConfig (not hardcoded) — dynamic model switching without code change
+
+### Prompt Governance, Audit Trails, Clarification Workflows (Lecture 15)
+
+- `InvokeModel` and `Converse` are **management events** — logged by CloudTrail by default
+- `InvokeAgent`, `Retrieve`, `RetrieveAndGenerate`, and `InvokeFlow` are **DATA events** — require explicit advanced event selector in CloudTrail to log
+- CloudTrail does **not** log prompt content by default — only metadata (caller, timestamp, model ID, region); enable model invocation logging separately for content
+- To audit which agent actions were taken and which KB chunks were retrieved: add DATA event selectors for `bedrock.amazonaws.com`
+
+### KB Automated Sync, API Gateway for Retrieval, Lambda Batch Embeddings (Lecture 16)
+
+- `StartIngestionJob` = incremental doc-level sync (async); `GetIngestionJob` for polling job status
+- API Gateway + Lambda proxy pattern exposes `Retrieve` or `RetrieveAndGenerate` as HTTP endpoints for external consumers
+- Lambda + SQS fan-out pattern for batch embeddings: SQS queue absorbs burst, Lambda workers call Bedrock Embeddings per message, manages Bedrock quota via concurrency limits
+- Use SQS FIFO for ordered processing; standard SQS for maximum throughput with at-least-once delivery

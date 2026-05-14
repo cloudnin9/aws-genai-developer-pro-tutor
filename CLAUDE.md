@@ -8,7 +8,7 @@ This is a personal learning workspace for the **AWS Certified Generative AI Deve
 
 ## Active Output Style
 
-Defined in `.claude/output-styles/aws-genai-deverloper-tutor.md` with `keep-coding-instructions: false`. This style configures Claude to:
+Defined in `.claude/output-styles/aws-genai-developer-tutor.md` with `keep-coding-instructions: false`. This style configures Claude to:
 
 - Teach and assess using the structure: Concept Explanation → Key Points → Common Misconceptions → Practice Question → Feedback
 - Run multiple-choice and scenario-based quizzes with instant scored feedback
@@ -65,7 +65,7 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 3. Update `domain-X-.../notes/domain-N-notes.md` with key takeaways ← **commonly skipped — do not skip**
 
     ```xml
-    <complete><condition>Notdomain-N-notes.mdes file is updated</condition></complete>
+    <complete><condition>domain-N-notes.md file is updated</condition></complete>
     ```
 
 4. Log quiz scores in `domain-X-.../quizzes/quiz-log.md`
@@ -89,7 +89,13 @@ Study order follows the plan in `study-plan.md` (Domain 1 first, highest weight)
 7. Once steps 1-6 are completed, output: ```<COMPLETE>Domain-X-../Lecture-NN</COMPLETE>```
 
 
-**Parallelization:** Steps 3, 4, 5, and 6 are independent file updates — spawn them as parallel `general-purpose` sub-agents rather than running sequentially.
+**Parallelization:** When covering multiple lectures in a single session, steps 1-2 for each lecture can run in parallel across lectures. Within a single lecture's wrap-up, steps 3, 4, 5, and 6 are independent file updates — spawn them as parallel `general-purpose` sub-agents rather than running sequentially.
+
+### Large File Write Strategy
+
+Lecture files longer than ~150 lines are prone to socket timeout errors if written in a single `Write` call. Always write large lecture files in two steps:
+1. `Write` the first half (top sections through Architecture Walkthrough or Real-World Example)
+2. `Edit` to append the second half (remaining sections through Source)
 
 ### Lecture File Template
 

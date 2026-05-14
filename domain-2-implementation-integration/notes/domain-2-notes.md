@@ -90,7 +90,21 @@
 
 ### Model Deployment (Lambda, Provisioned Throughput, SageMaker)
 
-> Add notes here
+## Lecture 04 — Model Deployment (2026-05-12)
+
+- **Lambda + Bedrock On-Demand:** Lambda invokes `bedrock-runtime` (`InvokeModel` / `Converse`); does not host models; needs `bedrock:InvokeModel` IAM permission; best for bursty / event-driven workloads
+- **Bedrock Provisioned Throughput:** reserved capacity measured in Model Units (MUs); billed hourly continuously regardless of usage; commitment tiers: none / 1-month / 6-month (longer = cheaper); REQUIRED for custom fine-tuned Bedrock models — on-demand is not available for them
+- Cross-region inference profiles only work with **base models**, not custom fine-tuned models
+- **SageMaker endpoint types:**
+  - Real-Time: persistent endpoint, low latency, autoscaling
+  - Serverless: scale-to-zero, ~1–2 s cold start
+  - Async: payloads up to 1 GB, processing up to 1 hr, S3 in/out, SNS notification, autoscales to zero; configured via `AsyncInferenceConfig` — an async endpoint **cannot** accept synchronous calls
+  - Batch Transform: offline, no persistent endpoint
+- **Strands Agents model classes:**
+  - `BedrockModel` — for Bedrock FMs (including Provisioned Throughput via provisioned model ARN)
+  - `SageMakerAIModel` — for SageMaker endpoints (optional dep: `pip install strands-agents[sagemaker]`)
+  - `LiteLLMModel` or custom `Model` subclass — if Lambda is in the path
+- Lambda is **not** a model provider — it is invocation middleware; Strands bypasses it when connecting directly to Bedrock or SageMaker
 
 ### FM API Integration (Sync/Async, Streaming, Rate Limiting)
 
