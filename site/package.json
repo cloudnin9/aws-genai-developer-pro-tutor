@@ -1,0 +1,16 @@
+{
+  "name": "aws-genai-study-companion",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && npx pagefind --site dist",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.7.0"
+  },
+  "devDependencies": {
+    "pagefind": "^1.3.0"
+  }
+}

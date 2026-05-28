@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { domains } from '../../lib/domains';
+const domain = domains[2];
+---
+<BaseLayout title={`Domain ${domain.number}`}>
+  <header class="domain-header">
+    <span class="domain-badge">Domain {domain.number} · {domain.weight}%</span>
+    <h1>{domain.title}</h1>
+  </header>
+  <p class="empty-state">Lectures for this domain are coming soon.</p>
+</BaseLayout>
+
+<style>
+  .domain-header { margin-bottom: var(--space-8); }
+  .domain-badge { font-size: 0.75rem; font-weight: 500; color: var(--accent); margin-bottom: var(--space-2); display: block; }
+  .empty-state { color: var(--text-secondary); font-size: 0.875rem; }
+</style>

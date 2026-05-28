@@ -1,0 +1,274 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<div class="search-wrapper" id="search-wrapper" data-base={base}>
+  <div class="search-input-row">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="M21 21l-4.35-4.35"/>
+    </svg>
+    <input
+      type="search"
+      id="search-input"
+      class="search-input"
+      placeholder="Search lectures..."
+      autocomplete="off"
+      aria-label="Search lectures"
+      aria-expanded="false"
+      aria-controls="search-results"
+      role="combobox"
+    />
+    <kbd class="search-shortcut">/</kbd>
+  </div>
+  <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden>
+    <div class="search-results-inner" id="search-results-inner"></div>
+  </div>
+</div>
+
+<style>
+  .search-wrapper {
+    position: relative;
+  }
+  .search-input-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+    transition: border-color 150ms ease-out;
+  }
+  .search-input-row:focus-within {
+    border-color: var(--accent);
+  }
+  .search-icon {
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+  .search-input {
+    border: none;
+    background: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    width: 200px;
+    outline: none;
+  }
+  .search-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+  .search-input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .search-shortcut {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    color: var(--text-secondary);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.1em 0.4em;
+    line-height: 1;
+  }
+  .search-input:focus ~ .search-shortcut {
+    display: none;
+  }
+  .search-results {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    left: 0;
+    right: 0;
+    min-width: 360px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 24px oklch(0 0 0 / 0.3);
+    z-index: 200;
+  }
+  .search-results-inner {
+    padding: var(--space-2);
+  }
+</style>
+
+<style is:global>
+  .search-result-item {
+    display: block;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background 100ms ease-out;
+  }
+  .search-result-item:hover,
+  .search-result-item[aria-selected="true"] {
+    background: var(--surface-2);
+    text-decoration: none;
+  }
+  .search-result-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: 2px;
+  }
+  .search-result-domain {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .search-result-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .search-result-excerpt {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .search-result-excerpt mark {
+    background: var(--accent-subtle);
+    color: var(--accent);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  .search-empty {
+    padding: var(--space-4);
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    let pagefind = null;
+    let debounceTimer = null;
+    let activeIndex = -1;
+
+    const input = document.getElementById('search-input');
+    const results = document.getElementById('search-results');
+    const inner = document.getElementById('search-results-inner');
+    const wrapper = document.getElementById('search-wrapper');
+
+    var base = wrapper.getAttribute('data-base') || '/';
+    if (!base.endsWith('/')) base += '/';
+
+    async function loadPagefind() {
+      if (pagefind) return pagefind;
+      try {
+        pagefind = await import(base + 'pagefind/pagefind.js');
+        await pagefind.init();
+      } catch (e) {
+        console.warn('Pagefind not available (run npm run build to generate index)', e);
+        pagefind = null;
+      }
+      return pagefind;
+    }
+
+    function showResults() {
+      results.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function hideResults() {
+      results.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+      activeIndex = -1;
+    }
+
+    function domainFromUrl(url) {
+      const match = url.match(/domain-(\d)/);
+      return match ? 'D' + match[1] : '';
+    }
+
+    function titleFromUrl(url) {
+      const match = url.match(/lecture-\d+-(.+?)(?:\/|$)/);
+      if (!match) return url;
+      return match[1].replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    }
+
+    async function doSearch(query) {
+      const pf = await loadPagefind();
+      if (!pf) {
+        inner.innerHTML = '<div class="search-empty">Search unavailable in dev mode. Run npm run build first.</div>';
+        showResults();
+        return;
+      }
+
+      const search = await pf.search(query);
+      if (!search.results.length) {
+        inner.innerHTML = '<div class="search-empty">No matches found</div>';
+        showResults();
+        return;
+      }
+
+      const items = await Promise.all(search.results.slice(0, 8).map(function(r) { return r.data(); }));
+      inner.innerHTML = items.map(function(item, i) {
+        var domain = domainFromUrl(item.url);
+        var title = item.meta && item.meta.title ? item.meta.title : titleFromUrl(item.url);
+        var excerpt = item.excerpt || '';
+        return '<a class="search-result-item" href="' + item.url + '" role="option" id="sr-' + i + '">' +
+          '<div class="search-result-meta"><span class="search-result-domain">' + domain + '</span></div>' +
+          '<div class="search-result-title">' + title + '</div>' +
+          (excerpt ? '<div class="search-result-excerpt">' + excerpt + '</div>' : '') +
+          '</a>';
+      }).join('');
+
+      activeIndex = -1;
+      showResults();
+    }
+
+    function updateActive() {
+      var items = inner.querySelectorAll('.search-result-item');
+      items.forEach(function(el, i) {
+        el.setAttribute('aria-selected', i === activeIndex ? 'true' : 'false');
+      });
+      if (activeIndex >= 0 && items[activeIndex]) {
+        items[activeIndex].scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      clearTimeout(debounceTimer);
+      if (q.length < 2) { hideResults(); return; }
+      debounceTimer = setTimeout(function() { doSearch(q); }, 150);
+    });
+
+    input.addEventListener('keydown', function (e) {
+      var items = inner.querySelectorAll('.search-result-item');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIndex = Math.min(activeIndex + 1, items.length - 1);
+        updateActive();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIndex = Math.max(activeIndex - 1, -1);
+        updateActive();
+      } else if (e.key === 'Enter' && activeIndex >= 0 && items[activeIndex]) {
+        e.preventDefault();
+        items[activeIndex].click();
+      } else if (e.key === 'Escape') {
+        hideResults();
+        input.blur();
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!wrapper.contains(e.target)) hideResults();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement !== input && !e.ctrlKey && !e.metaKey) {
+        var tag = document.activeElement && document.activeElement.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        e.preventDefault();
+        input.focus();
+      }
+    });
+  })();
+</script>

@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { domains } from '../../lib/domains';
+import '../../styles/lecture.css';
+
+const domain = domains[1];
+
+export async function getStaticPaths() {
+  const allLectures = await getCollection('lectures');
+  const domainLectures = allLectures.filter((l) =>
+    l.id.startsWith('domain-2-implementation-integration')
+  );
+  return domainLectures.map((lecture) => {
+    const file = lecture.id.split('/').pop() || '';
+    return { params: { slug: file }, props: { lecture } };
+  });
+}
+
+const { lecture } = Astro.props;
+const { Content } = await render(lecture);
+
+const titleMatch = lecture.id.match(/lecture-(\d+)-(.+)$/);
+const pageTitle = titleMatch
+  ? titleMatch[2].replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())
+  : 'Lecture';
+---
+<BaseLayout title={pageTitle}>
+  <article class="lecture-article">
+    <header class="lecture-header">
+      <a href={`/aws-genai-developer-pro-tutor/domain-${domain.number}/`} class="lecture-back">
+        Domain {domain.number}
+      </a>
+    </header>
+    <div class="lecture-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

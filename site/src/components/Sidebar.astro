@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import { domains } from '../lib/domains';
+
+const allLectures = await getCollection('lectures');
+const currentPath = Astro.url.pathname;
+
+function getLecturesForDomain(dirName: string) {
+  return allLectures
+    .filter((l) => l.id.startsWith(dirName))
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+function lectureTitle(id: string): string {
+  const filename = id.split('/').pop() || '';
+  const match = filename.match(/lecture-(\d+)-(.+)$/);
+  if (!match) return filename;
+  const num = match[1];
+  const slug = match[2].replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  return `${num}. ${slug}`;
+}
+
+function lectureHref(id: string): string {
+  const parts = id.split('/');
+  const domain = parts[0].match(/domain-(\d)/)?.[1] || '1';
+  const file = parts[parts.length - 1];
+  return `/aws-genai-developer-pro-tutor/domain-${domain}/${file}`;
+}
+---
+
+<nav class="sidebar" id="sidebar" aria-label="Lecture navigation">
+  <div class="sidebar-header">
+    <a href="/aws-genai-developer-pro-tutor/" class="logo">AIP-C01</a>
+  </div>
+  <div class="sidebar-content">
+    {domains.map((domain) => {
+      const lectures = getLecturesForDomain(domain.dirName);
+      const isActive = currentPath.includes(`/domain-${domain.number}/`);
+      return (
+        <details class="domain-section" open={isActive || domain.number <= 2}>
+          <summary class="domain-title">
+            <span class="domain-num">{domain.number}</span>
+            <span class="domain-name">{domain.title}</span>
+            <span class="domain-count">{lectures.length}</span>
+          </summary>
+          <ul class="lecture-list">
+            {lectures.map((lecture) => {
+              const href = lectureHref(lecture.id);
+              const active = currentPath === href;
+              return (
+                <li>
+                  <a href={href} class:list={['lecture-link', { active }]}>
+                    {lectureTitle(lecture.id)}
+                  </a>
+                </li>
+              );
+            })}
+            {lectures.length === 0 && (
+              <li class="empty-note">Lectures coming soon</li>
+            )}
+          </ul>
+        </details>
+      );
+    })}
+  </div>
+</nav>

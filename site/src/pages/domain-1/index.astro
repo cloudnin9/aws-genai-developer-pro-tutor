@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { domains } from '../../lib/domains';
+
+const domain = domains[0];
+const allLectures = await getCollection('lectures');
+const lectures = allLectures
+  .filter((l) => l.id.startsWith(domain.dirName))
+  .sort((a, b) => a.id.localeCompare(b.id));
+
+function lectureTitle(id: string): string {
+  const filename = id.split('/').pop() || '';
+  const match = filename.match(/lecture-(\d+)-(.+)$/);
+  if (!match) return filename;
+  return match[2].replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function lectureNum(id: string): string {
+  const match = id.match(/lecture-(\d+)/);
+  return match ? match[1] : '';
+}
+
+function lectureHref(id: string): string {
+  const file = id.split('/').pop() || '';
+  return `/aws-genai-developer-pro-tutor/domain-${domain.number}/${file}`;
+}
+---
+<BaseLayout title={`Domain ${domain.number}`}>
+  <header class="domain-header">
+    <span class="domain-badge">Domain {domain.number} · {domain.weight}%</span>
+    <h1>{domain.title}</h1>
+  </header>
+
+  <ol class="lecture-index">
+    {lectures.map((lecture) => (
+      <li>
+        <a href={lectureHref(lecture.id)} class="lecture-index-link">
+          <span class="lecture-index-num">{lectureNum(lecture.id)}</span>
+          <span class="lecture-index-title">{lectureTitle(lecture.id)}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</BaseLayout>
+
+<style>
+  .domain-header {
+    margin-bottom: var(--space-8);
+  }
+  .domain-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: var(--space-2);
+    display: block;
+  }
+  .lecture-index {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .lecture-index-link {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    transition: background 150ms ease-out;
+  }
+  .lecture-index-link:hover {
+    background: var(--surface-1);
+    text-decoration: none;
+  }
+  .lecture-index-num {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 1.5em;
+    text-align: right;
+  }
+  .lecture-index-title {
+    font-size: 0.9375rem;
+  }
+</style>

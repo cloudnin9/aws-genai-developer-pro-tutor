@@ -1,0 +1,57 @@
+---
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Mermaid from '../components/Mermaid.astro';
+import Search from '../components/Search.astro';
+import '../styles/global.css';
+import '../styles/sidebar.css';
+import '../styles/layout.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | AIP-C01 Study Companion</title>
+  <link rel="icon" type="image/svg+xml" href="/aws-genai-developer-pro-tutor/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 12h18M3 6h18M3 18h18"/>
+    </svg>
+  </button>
+
+  <Sidebar />
+
+  <div class="page-wrapper">
+    <header class="page-header">
+      <Search />
+      <ThemeToggle />
+    </header>
+    <main class="page-content" data-pagefind-body>
+      <slot />
+    </main>
+  </div>
+
+  <Mermaid />
+
+  <script is:inline>
+    document.getElementById('menu-toggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar')?.classList.toggle('open');
+    });
+    document.querySelector('.page-wrapper')?.addEventListener('click', () => {
+      document.getElementById('sidebar')?.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

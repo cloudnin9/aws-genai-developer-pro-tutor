@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { domains } from '../lib/domains';
+
+const allLectures = await getCollection('lectures');
+
+function getLectureCount(dirName: string): number {
+  return allLectures.filter((l) => l.id.startsWith(dirName)).length;
+}
+---
+<BaseLayout title="Domain Overview">
+  <h1>AWS Certified AI Practitioner (AIP-C01)</h1>
+  <p class="subtitle">5 domains, {allLectures.length} lectures</p>
+
+  <div class="domain-grid">
+    {domains.map((domain) => {
+      const count = getLectureCount(domain.dirName);
+      const hasContent = count > 0;
+      return (
+        <a
+          href={hasContent ? `/aws-genai-developer-pro-tutor/domain-${domain.number}/` : undefined}
+          class:list={['domain-item', { 'has-content': hasContent }]}
+        >
+          <div class="domain-item-header">
+            <span class="domain-item-num">{domain.number}</span>
+            <span class="domain-item-weight">{domain.weight}%</span>
+          </div>
+          <h2 class="domain-item-title">{domain.title}</h2>
+          <div class="domain-item-footer">
+            <span class="domain-item-lectures">
+              {count > 0 ? `${count} lecture${count > 1 ? 's' : ''}` : 'Coming soon'}
+            </span>
+            {hasContent && (
+              <div class="domain-item-bar">
+                <div class="domain-item-fill" style={`width: ${Math.min(100, (count / 16) * 100)}%`} />
+              </div>
+            )}
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: var(--space-1);
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: var(--space-8);
+  }
+  .domain-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .domain-item {
+    display: block;
+    padding: var(--space-4) var(--space-6);
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    transition: background 150ms ease-out, border-color 150ms ease-out;
+  }
+  .domain-item.has-content:hover {
+    background: var(--surface-2);
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+  .domain-item:not(.has-content) {
+    opacity: 0.6;
+    cursor: default;
+  }
+  .domain-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+  }
+  .domain-item-num {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .domain-item-weight {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--surface-2);
+    padding: 0.1em 0.5em;
+    border-radius: var(--radius-sm);
+  }
+  .domain-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 var(--space-3) 0;
+    line-height: 1.4;
+  }
+  .domain-item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .domain-item-lectures {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  .domain-item-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--surface-2);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 120px;
+  }
+  .domain-item-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 300ms ease-out;
+  }
+</style>

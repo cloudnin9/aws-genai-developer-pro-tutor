@@ -1,0 +1,106 @@
+.lecture-article {
+  max-width: 68ch;
+}
+
+.lecture-header {
+  margin-bottom: var(--space-6);
+}
+
+.lecture-back {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.lecture-back::before {
+  content: '\2190';
+}
+
+.lecture-back:hover {
+  color: var(--accent);
+}
+
+.lecture-body h1 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-6);
+}
+
+.lecture-body h2 {
+  font-size: 1.25rem;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.lecture-body h3 {
+  font-size: 1.1rem;
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+.lecture-body p {
+  margin-bottom: var(--space-4);
+}
+
+.lecture-body ul,
+.lecture-body ol {
+  margin-bottom: var(--space-4);
+}
+
+.lecture-body h2:has(+ ul),
+.lecture-body h2:has(+ ol) {
+  margin-bottom: var(--space-3);
+}
+
+/* Callout sections: Exam Tips, Key Points, Gotchas, Common Misconceptions */
+.lecture-body h2 + ul,
+.lecture-body h3 + ul {
+  margin-top: 0;
+}
+
+/* Mermaid diagrams */
+.lecture-body pre:has(code.language-mermaid) {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  padding: var(--space-6);
+  text-align: center;
+}
+
+/* Callout styling via section detection */
+.lecture-body h2[id*="exam-tip"],
+.lecture-body h2[id*="exam-tips"] {
+  color: var(--accent);
+}
+
+.lecture-body h2[id*="gotcha"],
+.lecture-body h2[id*="gotchas"] {
+  color: oklch(0.7 0.15 30);
+}
+
+[data-theme="light"] .lecture-body h2[id*="gotcha"],
+[data-theme="light"] .lecture-body h2[id*="gotchas"] {
+  color: oklch(0.45 0.18 30);
+}
+
+.lecture-body h2[id*="key-point"],
+.lecture-body h2[id*="key-points"] {
+  color: oklch(0.72 0.12 200);
+}
+
+[data-theme="light"] .lecture-body h2[id*="key-point"],
+[data-theme="light"] .lecture-body h2[id*="key-points"] {
+  color: oklch(0.42 0.15 200);
+}
+
+.lecture-body table {
+  margin: var(--space-4) 0;
+}
+
+.lecture-body img {
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  margin: var(--space-4) 0;
+}
